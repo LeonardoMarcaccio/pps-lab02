@@ -10,14 +10,27 @@ object Optionals:
 
   // operations (/algorithms)
   object OptionalInt:
+    def isEmpty(optional: OptionalInt): Boolean =
+      optional match
+        case Empty() => true
+        case _       => false
 
-    def isEmpty(opt: OptionalInt): Boolean = opt match
-      case Empty() => true
-      case _       => false
+    def orElse(optional: OptionalInt, orElse: Int): Int =
+      optional match
+        case Just(value) => value
+        case _       => orElse
 
-    def orElse(opt: OptionalInt, orElse: Int): Int = opt match
-      case Just(a) => a
-      case _       => orElse
+    def mapInt(optional: OptionalInt)(mapFunction: Int => Int): OptionalInt =
+      optional match
+        case Just(value) => Just(mapFunction(value))
+        case Empty() => Empty()
+
+    def filter(optional: OptionalInt)(predicate: Int => Boolean): OptionalInt =
+      optional match
+        case Just(value) if predicate(value) => Just(value)
+        case Just(_) => Empty()
+        case Empty() => Empty()
+
 
 @main def tryOptionals(): Unit =
   import Optionals.* // to work with Optionals (to see OptionalInt type)
